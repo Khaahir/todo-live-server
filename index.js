@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import todos from "./controller/todos.js";
+import signup from './controller/signup.js'
+import login from "./controller/login.js"
+
 dotenv.config();
 
 const app = express();
@@ -22,6 +25,8 @@ database.once("connected", () => {
 });
 
 app.use("/api/todos", todos);
+app.use("/api/signup", signup)
+app.use("/api/login", login)
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
