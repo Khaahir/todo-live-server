@@ -2,7 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 
 import bcrypt from "bcrypt"
-import userModel from "../models/signupModel.js"
+import userModel from "../models/userModel.js"
 dotenv.config()
 const router = express.Router()
 
