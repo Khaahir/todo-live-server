@@ -4,7 +4,7 @@ import authUser from "../middlewares/authMiddleware.js"
 
 const router = express.Router();
 
-router.get("/", authUser, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const todos = await Todomodel.find();
     res.status(200).json({ success: true, todos });
