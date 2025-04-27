@@ -20,6 +20,13 @@ router.post("/" ,async (req, res)=> {
 
         }
 
+        const usernameInDb = await userModel.findOne({username})
+        if(usernameInDb){
+            return res.status(400).json({
+                message: "username is already taken"
+            })
+        }
+
         const salt  = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
 
@@ -28,7 +35,7 @@ router.post("/" ,async (req, res)=> {
         await newUser.save()
         res.status(201).json({message: `welcome ${newUser.username}`})
     }catch(err){
-    res.status(400).json({message:"we were not able to create a account for u" ,err})
+    res.status(400).json({message:"we were not able to create a account for u" ,message: err})
     }
 })
 
