@@ -1,9 +1,10 @@
 import express from "express";
 import Todomodel from "../models/todoModel.js"
+import authUser from "../middlewares/authMiddleware.js"
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", authUser, async (req, res) => {
   try {
     const todos = await Todomodel.find();
     res.status(200).json({ success: true, todos });
@@ -12,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/" ,authUser, async (req, res) => {
   try {
     const newtodo = new Todomodel({
       uppgift: req.body.uppgift,
@@ -30,11 +31,10 @@ router.post("/", async (req, res) => {
     res.status(400).json({ Message: "Something went wrong", err });
   }
 });
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",authUser, async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find and delete the todo by its ID
     const deletedTodo = await Todomodel.findByIdAndDelete(id);
 
     if (!deletedTodo) {

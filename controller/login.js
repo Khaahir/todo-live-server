@@ -31,9 +31,15 @@ router.post("/", async (req, res)=> {
         if(!findPassword){
             return res.status(400).json({message:"password is invalid"})
         }
-        res.status(200).json({message: "welcome back user"})
+        
+        const token = jwt.sign(
+            {id: user._id, username: username},
+            process.env.JWT_KEY,
+            {expiresIn: "1h"}
+        )
+        res.status(200).json({ message: `Welcome back ${username}` ,token});
     }catch(err){
-        res.status(400).json({message:"you where not able to log in try agin later", error:message.err})
+        res.status(500).json({message:"you where not able to log in try agin later", error:err.message})
     }
 })
 
